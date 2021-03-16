@@ -16,7 +16,7 @@
       - [**1.1 Einleitung**](#11-einleitung)
     - [**2 Technische Doku**](#2-technische-doku)
       - [**2.1 GIT**](#21-git)
-      - [**2.2 Vagrant / VM erzeugung**](#22-vagrant--vm-erzeugung)
+      - [**2.2 Vagrant**](#22-vagrant)
     - [**5 Test**](#5-test)
     - [**links**](#links)
 
@@ -41,17 +41,18 @@ Jetzt kann ich den befehl ***git status*** ausführen. Nun sehe ich alle Dateien
 
 
 
-#### **2.2 Vagrant / VM erzeugung**
+#### **2.2 Vagrant**
 
 Im zweiten vorbereitungsschritt habe ich Vagrant kennengelernt. Vagrant ist eine Openn-Source Ruby-Anwendunng, welche zur Erstellung und Verwaltung von VM's gebraucht werden kann. Auch hier wurde folgende Anleitung benutzt:<https://github.com/mc-b/M300/tree/master/10-Toolumgebung>
 
 Als erstes habe ich mir eine Vangrant Box heruntergeladen: <https://app.vagrantup.com/boxes/search?utf8=%E2%9C%93&sort=downloads&provider=&q=ubuntu%2Ftrusty64>
 
-Danach habe ich sichergestellt, dass ich im richtigen Verzeichnis unterwegs bin. Nun habe ich einen ***vagrant init ubuntu/trusty64*** ausgeführt, welchen mir ein Vagrantfile erstellt. Mit Hilfe dieses Vagrantfile kann ich nun die VM weiter erstellen und konfigurieren. Anschliessend habe ich das Vagrant file geöffnet und alles gelöscht bis auf: Vagrant.configure("2") do |config|
-  config.vm.box = "ubuntu/trusty64"
+Danach habe ich sichergestellt, dass ich im richtigen Verzeichnis unterwegs bin. Nun habe ich einen ***vagrant init ubuntu/trusty64*** ausgeführt, welchen mir ein Vagrantfile erstellt. Mit Hilfe dieses Vagrantfile kann ich nun die VM weiter erstellen und konfigurieren unnd alles andere aufsetzen. Anschliessend habe ich das Vagrant file geöffnet und alles gelöscht bis auf:       Vagrant.configure("2") do |config|
+config.vm.box = "ubuntu/trusty64"
 end.
+Diese drei Zeilen würden beim auslösen des Bfehels ***vagrant up*** nun eine VM erstellen. Weil wir dies aber nicht wollen, fahren wir mit dem nächsten Teil, der Konfiguration fort.
 
-Führe nun ein ***vagrant up*** aus um die VM zu erstellen
+
 
 
 
