@@ -15,10 +15,10 @@ end
 
 # Provision-Einstellungen
 config  .  vm  .  Bestimmung   "Shell"  ,   Inline : << - SHELL
-sudo  apt Update
-sudo  apt Upgrade
 
-sudo  apt install  apache2 - y
+sudo apt-get Update
+
+sudo apt-get -y install apache2 
 
 sudo ufw app list
 sudo ufw allow 'Apache'
