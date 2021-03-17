@@ -14,7 +14,8 @@ config  .  vm  .  Angebote   "virtualbox"   do | vb |
 end
 
 config . vm . Netzwerk  " forwarded_port " ,  Gast : 80 ,  Host : 8080
-end
+
+
 # Provision-Einstellungen
 config  .  vm  .  Bestimmung   "Shell"  ,   Inline : << - SHELL
 
@@ -22,13 +23,7 @@ sudo apt-get Update
 
 sudo apt-get -y install apache2 
 
-sudo ufw app list
-sudo ufw allow 'Apache'
 
-sudo systemctl restart apache2
-sudo systemctl status apache2
- 
-
-shell
+SHELL
 
 end
