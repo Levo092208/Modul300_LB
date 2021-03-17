@@ -17,10 +17,10 @@ end
 
 # Provision-Einstellungen
 config  .  vm  .  Bestimmung   "Shell"  ,   Inline : << - SHELL
-sudo  apt - erhalten  Update
-sudo  apt - erhalten  Upgrade
+sudo  apt Update
+sudo  apt Upgrade
 
-sudo  apt - get  install  apache2 - y
+sudo  apt install  apache2 - y
 
 sudo  service  apache2  neu starten
 sudo  service  apache2  status
