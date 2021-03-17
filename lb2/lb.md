@@ -1,10 +1,7 @@
-> TBZ M300 Levin Kuhn
+> M300 LB02 Dokuemntation - Webserver
 
 # **Modul 300 Dokumentation**
-![Image](desktop/Titelbild.png)
 
-
-ddddddd
 
 
 
@@ -12,24 +9,30 @@ ddddddd
 > **Inhaltsverzeichnis**    
 
 - [**Modul 300 Dokumentation**](#modul-300-dokumentation)
-    - [**1 Einführung**](#1-einführung)
-      - [**1.1 Einleitung**](#11-einleitung)
-    - [**2 Technische Doku**](#2-technische-doku)
-      - [**2.1 GIT**](#21-git)
-      - [**2.2 Vagrant**](#22-vagrant)
-    - [**5 Test**](#5-test)
-    - [**links**](#links)
+- [**1 Einführung**](#1-einführung)
+  - [**1.1 Einleitung**](#11-einleitung)
+- [**2 Technische Doku**](#2-technische-doku)
+  - [**2.1 GIT**](#21-git)
+  - [**2.2 Vagrant**](#22-vagrant)
+    - [**2.3 Vagrantfile**](#23-vagrantfile)
+    - [**2.4 Vagrantfile Codedokumantation VM**](#24-vagrantfile-codedokumantation-vm)
+    - [**2.5 Vagrantfile Codedokumantation Apache 2**](#25-vagrantfile-codedokumantation-apache-2)
+- [**3 Tests**](#3-tests)
+- [**4 nützliche und verwendete links**](#4-nützliche-und-verwendete-links)
+
+---------------------
 
 
 
-### **1 Einführung**
-#### **1.1 Einleitung**
+# **1 Einführung**
+## **1.1 Einleitung**
 
 Das hier ist die Dokuemntation des Moduls 300, in welchem wir einen Webserver automatisieren werden. Zur Realisierung werden  Git und Markdown wesentlich beitragen und auch hier in der Dokumentation beschrieben werden. Zum einen wird der Code beschrieben, mit welchem wir alles aufegsetzt haben und zum anderen werden auch Fortschritte hier verzeichnet.
 
+--------------------
 
-### **2 Technische Doku**
-#### **2.1 GIT**
+# **2 Technische Doku**
+## **2.1 GIT**
 
 Als aller erstes haben wir ein Git Repository erstellt und dies geklont. Um das zu tun habe ich die Anelitung unter folgendem Link verwendet: <https://github.com/mc-b/M300/tree/master/10-Toolumgebung>
 
@@ -38,35 +41,97 @@ Jetzt kann ich den befehl ***git status*** ausführen. Nun sehe ich alle Dateien
 
 >Ergänzung: falls mehrere Branches verwendet werden -> git checkout -> git push -u origin "branchname"
 
+                                                                             
+## **2.2 Vagrant**
+
+### **2.3 Vagrantfile**
+   
+   
+   
+    Vagrant.configure("2") do |config|       
+
+     config.vm.box = "ubuntu/trusty64"
+
+
+     config.vm.network "forwarded_port", guest: 80, host: 8080
+
+     # config.vm.synced_folder "../data", "/vagrant_data"
+
+     # Provider-specific configuration s
+  
+     config.vm.provider "virtualbox" do |vb|
+  
+     vb.gui = true
+  
+     vb.memory = "4096"
+     end
+  
+     config.vm.provision "shell", inline: <<-SHELL
+     apt-get update
+     apt-get install -y apache2
+     SHELL
+     end
 
 
 
-#### **2.2 Vagrant**
 
-Im zweiten vorbereitungsschritt habe ich Vagrant kennengelernt. Vagrant ist eine Openn-Source Ruby-Anwendunng, welche zur Erstellung und Verwaltung von VM's gebraucht werden kann. Auch hier wurde folgende Anleitung benutzt:<https://github.com/mc-b/M300/tree/master/10-Toolumgebung>
+### **2.4 Vagrantfile Codedokumantation VM**
 
-Als erstes habe ich mir eine Vangrant Box heruntergeladen: <https://app.vagrantup.com/boxes/search?utf8=%E2%9C%93&sort=downloads&provider=&q=ubuntu%2Ftrusty64>
+     config.vm.box = "ubuntu/trusty64"
+  >*hier ist definiert, welche Image / Box verwendet werden soll*
 
-Danach habe ich sichergestellt, dass ich im richtigen Verzeichnis unterwegs bin. Nun habe ich einen ***vagrant init ubuntu/trusty64*** ausgeführt, welchen mir ein Vagrantfile erstellt. Mit Hilfe dieses Vagrantfile kann ich nun die VM weiter erstellen und konfigurieren unnd alles andere aufsetzen. Anschliessend habe ich das Vagrant file geöffnet und alles gelöscht bis auf:       Vagrant.configure("2") do |config|
-config.vm.box = "ubuntu/trusty64"
-end.
-Diese drei Zeilen würden beim auslösen des Bfehels ***vagrant up*** nun eine VM erstellen. Weil wir dies aber nicht wollen, fahren wir mit dem nächsten Teil, der Konfiguration fort.
+     config.vm.network "forwarded_port", guest: 80, host: 8080
+  >*hier werden die geöffneten Ports eingetragen, damit man später auf die VM zugreifen kann*
 
-444
-222222222
+     config.vm.provider "virtualbox" do |vb|
+  >*hier wird definiert welcher Provider verwendet werden soll*
 
+     vb.gui = true
+  >*hier wird definiert ob ein GUI angezeigt werden soll, bei mir JA*
 
+     vb.memory = "4096"
+  >*hier wird definiert wie viel Speicher die VM haben soll*
 
-
-### **5 Test**
-|Test NR | Beschreib | Auswertung |
------- | ------|----------
-1      | wir machen...     | geklappt
-2      | wir machen...   | (
-3      |       | ^  
+     config.vm.provision "shell", inline: <<-SHELL
+  >*Diese Zeile ist das Schlusslicht und alles wass noch folgt wird erst nach dem Start der VM ausgeführt*
 
 
-### **links**
+
+
+
+### **2.5 Vagrantfile Codedokumantation Apache 2**
+
+     apt-get update
+  >*durch diesen Befehl werden Paketlisten neu eingelesen und aktualisiert*
+
+     apt-get install -y apache2
+  >*durch diesen Befehl wird apache2 installiert*
+
+  - Nun kann man die IP der VM 127.0.0.1 im Browser eingeben. Wen die Apchache2 Standardseite erscheint hat alles funktioniert
+
+
+---------------------------
+  
+
+
+
+
+
+
+
+
+
+
+
+# **3 Tests**
+| Test  | Beschreib     | Auswertung |
+| ------- | ------------- | ---------- |
+| 1       | Nur Vm erstellen | geklappt   |
+| 2       | Konfigurierte VM erstellen |      geklappt   |
+| 3       | Komplettes Vagrant UP              | geklappt      |
+
+
+# **4 nützliche und verwendete links**
 - <https://github.com/Levo092208/Modul300_LB> "Mein Repo"
 - <https://app.vagrantup.com/boxes/search?utf8=%E2%9C%93&sort=downloads&provider=&q=ubuntu%2Ftrusty64> "UbuntuBox"
 - <https://bscw.tbz.ch/bscw/bscw.cgi/d32655651/M300_LB2_IaC_1_4.pdf> "LB2 Anforderungen"
