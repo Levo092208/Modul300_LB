@@ -53,7 +53,7 @@ end.
 Diese drei Zeilen würden beim auslösen des Bfehels ***vagrant up*** nun eine VM erstellen. Weil wir dies aber nicht wollen, fahren wir mit dem nächsten Teil, der Konfiguration fort.
 
 444
-
+222222222
 
 
 
