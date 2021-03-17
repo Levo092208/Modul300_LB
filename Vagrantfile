@@ -12,18 +12,3 @@ config  .  vm  .  Angebote   "virtualbox"   do | vb |
   vb  .  Speicher   =   "4096"
 
 end
-
-config . vm . Netzwerk  " forwarded_port " ,  Gast : 80 ,  Host : 8080
-
-
-# Provision-Einstellungen
-config  .  vm  .  Bestimmung   "Shell"  ,   Inline : << - SHELL
-
-sudo apt-get Update
-
-sudo apt-get -y install apache2 
-
-
-SHELL
-
-end
