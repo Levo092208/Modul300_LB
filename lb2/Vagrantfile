@@ -22,6 +22,9 @@ sudo  apt Upgrade
 
 sudo  apt install  apache2 - y
 
-sudo  service  apache2  neu starten
-sudo  service  apache2  status
+sudo ufw app list
+sudo ufw allow 'Apache'
+
+sudo systemctl restart apache2
+sudo systemctl status apache2
 end
