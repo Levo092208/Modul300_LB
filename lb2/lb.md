@@ -109,6 +109,16 @@ Jetzt kann ich den befehl ***git status*** ausführen. Nun sehe ich alle Dateien
 
   - Nun kann man die IP der VM 127.0.0.1 im Browser eingeben. Wen die Apchache2 Standardseite erscheint hat alles funktioniert
 
+>*Anschliessend wurde noch folgenede Befehl ausgeführt*
+
+     sudo nano /etc/apache2/apache2.conf
+  >*durch diesen Befehl werden wir in das Konfig File kommen, wo wir der Servernamen zu localhost ändern können*
+
+     sudo service apache2 restart
+  >*durch diesen Befehl könnne wir apache neustarten um die Änderungen zu übernehmen*
+
+     sudo apache2ctl configtest
+  >*durch diesen Befehl testen wir unser Config. Wir sollte eine Meldung bekommen: Syntax = OK*
 
 ---------------------------
   
