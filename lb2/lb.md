@@ -139,6 +139,7 @@ Jetzt kann ich den befehl ***git status*** ausführen. Nun sehe ich alle Dateien
 | 1       | Nur Vm erstellen | geklappt   |
 | 2       | Konfigurierte VM erstellen |      geklappt   |
 | 3       | Komplettes Vagrant UP              | geklappt      |
+| 4       | 127.0.0.1 im browser              | geklappt      |
 
 
 # **4 nützliche und verwendete links**
