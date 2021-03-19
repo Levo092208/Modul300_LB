@@ -18,8 +18,19 @@ Vagrant.configure("2") do |config|
   vb.memory = "4096"
   end
   
+  #Werbserver
   config.vm.provision "shell", inline: <<-SHELL
   apt-get update
   apt-get install -y apache2
+
+
+
+  #Firewall Rules
+  sudo apt install ufw
+  sudo ufw app list
+  sudo ufw allow 'Apache'
+  sudo ufw status
+  SHELL
+
   SHELL
 end
