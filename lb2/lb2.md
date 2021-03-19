@@ -3,9 +3,9 @@
 # **Modul 300 Dokumentation**
 
 
-
-
-
+   
+    
+     
 > **Inhaltsverzeichnis**    
 
 - [**Modul 300 Dokumentation**](#modul-300-dokumentation)
@@ -24,7 +24,8 @@
 
 
 
-# **1 Einführung**
+# **1 Einführung**  
+
 ## **1.1 Einleitung**
 
 Das hier ist die Dokuemntation des Moduls 300, in welchem wir einen Webserver automatisieren werden. Zur Realisierung werden  Git und Markdown wesentlich beitragen und auch hier in der Dokumentation beschrieben werden. Zum einen wird der Code beschrieben, mit welchem wir alles aufegsetzt haben und zum anderen werden auch Fortschritte hier verzeichnet.
@@ -32,6 +33,7 @@ Das hier ist die Dokuemntation des Moduls 300, in welchem wir einen Webserver au
 --------------------
 
 # **2 Technische Doku**
+
 ## **2.1 GIT**
 
 Als aller erstes haben wir ein Git Repository erstellt und dies geklont. Um das zu tun habe ich die Anelitung unter folgendem Link verwendet: <https://github.com/mc-b/M300/tree/master/10-Toolumgebung>
@@ -42,7 +44,7 @@ Jetzt kann ich den befehl ***git status*** ausführen. Nun sehe ich alle Dateien
 >Ergänzung: falls mehrere Branches verwendet werden -> git checkout -> git push -u origin "branchname"
 
                                                                              
-## **2.2 Vagrant**
+## **2.2 Vagrant**               
 
 ### **2.3 Vagrantfile**
    
@@ -117,7 +119,7 @@ Jetzt kann ich den befehl ***git status*** ausführen. Nun sehe ich alle Dateien
      sudo service apache2 restart
   >*durch diesen Befehl könnne wir apache neustarten um die Änderungen zu übernehmen*
 
-     sudo apache2ctl configtest
+     sudo
   >*durch diesen Befehl testen wir unser Config. Wir sollte eine Meldung bekommen: Syntax = OK*
 
 ---------------------------
