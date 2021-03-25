@@ -13,13 +13,21 @@ config.vm.provider "virtualbox" do |vb|
   
   #Werbserver
   config.vm.provision "file", source: "../Website/index.php", destination: "/var/www/html/index.php"
+  config.vm.provision "file", source: "../Website/.htpasswd", destination: "/var/www/html/.htpasswd"
+  config.vm.provision "file", source: "../Website/.htaccess", destination: "/var/www/html/.htaccess"
+  config.vm.provision "file", source: "../Website/apache2.conf", destination: "/var/www/html/apache2.conf"
   config.vm.provision "shell", inline: <<-SHELL
   apt-get update
   apt-get install -y apache2
   sudo apt -y install apache2 php libapache2-mod-php
-
-
-
+  sudo apt-get update
+  sudo apt-get install libcap2-bin wireshark
+  sudo apt-get update
+  sudo apt install software-properties-common
+  sudo add-apt-repository ppa:deadsnakes/ppa
+  sudo apt-get update
+  sudo apt install python3.8
+  
   #Firewall Rules
   sudo apt install ufw
   sudo ufw default deny incoming
@@ -30,10 +38,6 @@ config.vm.provider "virtualbox" do |vb|
   sudo ufw allow 'Apache'
   sudo ufw --force enable
   sudo ufw --force status verbose
-  
-
-
-
   
   SHELL
 end
