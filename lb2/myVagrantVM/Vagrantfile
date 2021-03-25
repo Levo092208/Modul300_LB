@@ -3,19 +3,11 @@
 
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/xenial64"
-
-
   config.vm.network "forwarded_port", guest: 80, host: 8080
-
-  # config.vm.synced_folder "../data", "/vagrant_data"
-
   # Provider-specific configuration s
-  
-  config.vm.provider "virtualbox" do |vb|
-  
-  vb.gui = true
-  vb.name = "M300_Webserver"
-  config . vm . synced_folder  "." ,  "/var/www/html" 
+  config.vm.synced_folder ".", "/var/www/html" 
+config.vm.provider "virtualbox" do |vb|
+  #vb.name = "M300_Webserver_Levin"
   vb.memory = "4096"
   end
   
