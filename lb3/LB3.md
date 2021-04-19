@@ -11,10 +11,12 @@
 - [**Modul300 Dokumentation der LB03 Docker**](#modul300-dokumentation-der-lb03-docker)
 - [**1 Einführung**](#1-einführung)
   - [**1.1 Einleitung**](#11-einleitung)
-- [**2 Technische Doku**](#2-technische-doku)
-  - [**2.1 GIT**](#21-git)
-  - [**2.2 Vagrant**](#22-vagrant)
-    - [**2.3 Vagrantfile**](#23-vagrantfile)
+  - [**1.2 Was ist Docker?**](#12-was-ist-docker)
+  - [**1.2 Wichtige Befehle und deren Bedeutung Images Docker**](#12-wichtige-befehle-und-deren-bedeutung-images-docker)
+  - [**1.2 Wichtige Befehle und deren Bedeutung Container Docker**](#12-wichtige-befehle-und-deren-bedeutung-container-docker)
+- [**2 Code Dokumentation**](#2-code-dokumentation)
+  - [**2.1 Dockerfile**](#21-dockerfile)
+  - [**2.1 docker-compose.yml**](#21-docker-composeyml)
     - [**2.4 Vagrantfile Codedokumantation VM**](#24-vagrantfile-codedokumantation-vm)
     - [**2.5 Vagrantfile Codedokumantation Apache 2 / php**](#25-vagrantfile-codedokumantation-apache-2--php)
     - [**2.6 Vagrantfile Codedokumantation Firewall**](#26-vagrantfile-codedokumantation-firewall)
@@ -34,68 +36,46 @@
 
 Das hier ist die Dokuemntation des Moduls 300 der LB03, in welchem wir Services mit Docker autmoatisieren werden. Zur Realisierung wird Docker und Markdown verwendet. Markdown haben wir bereits kennengelernt und wird hier nicht mehr beschrieben. Docker hingegn ist neu und wird auch hier in der Dokumenntation  Zum einen wird der Code beschrieben, mit welchem wir alles aufegsetzt haben und zum anderen werden auch Fortschritte hier verzeichnet.
 
+Ich habe mich dazu entschieden mit Hilfe von PHP, MYSQl und Apache, eine kleine Website zu "bauen", welche ihre Informationen via DB abholt. Was genau auf der Website stehen soll ist noch nicht definiert. 
+
+## **1.2 Was ist Docker?**
+
+„Docker“ ist eine Containerisierungstechnologie, die die Erstellung und den Betrieb von Linux-Containern ermöglicht. 
+
+## **1.2 Wichtige Befehle und deren Bedeutung Images Docker**
+
+- ***build*** = Image erstellen
+- ***pull*** = Image oder Repo von Registry ziehen
+- ***ls*** = zeigt alle vorhandenen Images
+- ***history*** = Alle Infos von einem Image
+- ***inspect*** = Detailiertere Infos zu Image, was geschieht auf welchem Layer
+- ***rmi*** = Image Löschen
+
+## **1.2 Wichtige Befehle und deren Bedeutung Container Docker**
+- ***create*** = Container aus Image erstellen
+- ***start*** = existierenden Container starten
+- ***run*** = erstellt neuen Container und startet ihn zugleich
+- ***ls*** = listet alle *LAUFENDEN* Container auf
+- ***inspect*** = Detailierte Infos über Container
+- ***logs*** = zeigt logs an
+- ***stop*** = stoppt laufenden Container
+- ***kill*** = Stoppt Hauptprozess in einem Containner sofort
+- ***rm*** = löscht einen gestoppten container
+
 --------------------
 
-# **2 Technische Doku**
+# **2 Code Dokumentation**
 
-## **2.1 GIT**
+## **2.1 Dockerfile**
 
-Als aller erstes haben wir ein Git Repository erstellt und dies geklont. Um das zu tun habe ich die Anelitung unter folgendem Link verwendet: <https://github.com/mc-b/M300/tree/master/10-Toolumgebung>
 
-Nun habe ich das Repository lokal geklont und bin in der Lage, meine lokale Arbeit via ***git push*** ins Repository hoch zu laden. Dafür muss man im CMD zum Verzeichnis wechseln in welchem das Repository geklont wurde.
-Jetzt kann ich den befehl ***git status*** ausführen. Nun sehe ich alle Dateien, in welchen etwas geändert wurde. Mit dem Befehl ***git add -A*** kann ich nun alle Dateien zum Upload bereitstellen. Führt man jetzt erneut einen ***git status*** aus so sind alle vorhin rot markierten Dateien nun grün, was heisst, dass der Upload nun gestartet werden kann. Danach kann der Befehl ***git commit -m "Mein Kommentar"*** ausgeführt werden. Dieser "erlaubt" den Upload und hinterlässt einen Kommentar, welchen den neuen oder geänderten Inhalt des Dokuemnts gut beschreiben sollte. An dieser stelle habe ich erneut einen ***git status*** gemacht, welcher mir nun anzeigt, dass Dateien zum pushen bereit sind. Jetzt konnte ich den Befehl ***git push*** ausführen und auf meinem Repository sehen, dass sich was geändert hat.
 
->Ergänzung: falls ausversehen mehrere Branches verwendet werden -> git checkout "Name des gewünschten Branches" -> git push -u origin "branchname"
+
 
 ---------------------------                                                                            
-## **2.2 Vagrant**                 
+## **2.1 docker-compose.yml**                
 
-### **2.3 Vagrantfile**
-   
-   
-   
-     # -*- mode: ruby -*-
-     # vi: set ft=ruby :
 
-     Vagrant.configure("2") do |config|
-     config.vm.box = "ubuntu/xenial64"
-     config.vm.network "forwarded_port", guest: 80, host: 8080
-     # Provider-specific configuration s
-     config.vm.synced_folder ".", "/var/www/html" 
-     config.vm.provider "virtualbox" do |vb|
-     #vb.name = "M300_Webserver_Levin"
-     vb.memory = "4096"
-     end
-  
-     #Werbserver
-     config.vm.provision "file", source: "../Website/index.php", destination: "/var/www/html/index.php"
-     config.vm.provision "file", source: "../Website/.htpasswd", destination: "/var/www/html/.htpasswd"
-     config.vm.provision "file", source: "../Website/.htaccess", destination: "/var/www/html/.htaccess"
-     config.vm.provision "file", source: "../Website/apache2.conf", destination: "/var/www/html/apache2.conf"
-     config.vm.provision "shell", inline: <<-SHELL
-     apt-get update
-     apt-get install -y apache2
-     sudo apt -y install apache2 php libapache2-mod-php
-     sudo apt-get update
-     sudo apt-get install libcap2-bin wireshark
-     sudo apt-get update
-     sudo apt install software-properties-common
-     sudo add-apt-repository ppa:deadsnakes/ppa
-     sudo apt-get update
-     sudo apt install python3.8
-  
-     #Firewall Rules
-     sudo apt install ufw
-     sudo ufw default deny incoming
-     sudo ufw default allow outgoing
-     sudo ufw allow ssh
-     sudo ufw allow 80
-     sudo ufw allow 8080
-     sudo ufw allow 'Apache'
-     sudo ufw --force enable
-     sudo ufw --force status verbose
-     SHELL
-     end
 
 ---------------------------
 
