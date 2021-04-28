@@ -12,10 +12,10 @@
 - [**1 Einführung**](#1-einführung)
   - [**1.1 Einleitung**](#11-einleitung)
   - [**1.2 Was ist Docker?**](#12-was-ist-docker)
-  - [**1.2 Wichtige Befehle und deren Bedeutung Images Docker**](#12-wichtige-befehle-und-deren-bedeutung-images-docker)
-  - [**1.2 Wichtige Befehle und deren Bedeutung Container Docker**](#12-wichtige-befehle-und-deren-bedeutung-container-docker)
+  - [**1.2 Wichtige Befehle und deren Bedeutung von Docker Images**](#12-wichtige-befehle-und-deren-bedeutung-von-docker-images)
+  - [**1.2 Wichtige Befehle und deren Bedeutung von Docker Container**](#12-wichtige-befehle-und-deren-bedeutung-von-docker-container)
 - [**2 Code Dokumentation**](#2-code-dokumentation)
-  - [**2.1 Dockerfile am anfang ohne docker-compose**](#21-dockerfile-am-anfang-ohne-docker-compose)
+  - [**2.1 erstes Dockerfile ohne docker-compose**](#21-erstes-dockerfile-ohne-docker-compose)
   - [**2.2 index.php File**](#22-indexphp-file)
   - [**2.3 Apache**](#23-apache)
   - [**2.1 docker-compose.yml**](#21-docker-composeyml)
@@ -44,7 +44,7 @@ Ich habe mich dazu entschieden mit Hilfe von PHP, MYSQl und Apache, eine kleine 
 
 „Docker“ ist eine Containerisierungstechnologie, die die Erstellung und den Betrieb von Linux-Containern ermöglicht. 
 
-## **1.2 Wichtige Befehle und deren Bedeutung Images Docker**
+## **1.2 Wichtige Befehle und deren Bedeutung von Docker Images**
 
 - ***build*** = Image erstellen
 - ***pull*** = Image oder Repo von Registry ziehen
@@ -53,7 +53,7 @@ Ich habe mich dazu entschieden mit Hilfe von PHP, MYSQl und Apache, eine kleine 
 - ***inspect*** = Detailiertere Infos zu Image, was geschieht auf welchem Layer
 - ***rmi*** = Image Löschen
 
-## **1.2 Wichtige Befehle und deren Bedeutung Container Docker**
+## **1.2 Wichtige Befehle und deren Bedeutung von Docker Container**
 - ***create*** = Container aus Image erstellen
 - ***start*** = existierenden Container starten
 - ***run*** = erstellt neuen Container und startet ihn zugleich
@@ -68,36 +68,44 @@ Ich habe mich dazu entschieden mit Hilfe von PHP, MYSQl und Apache, eine kleine 
 
 # **2 Code Dokumentation**
 
-## **2.1 Dockerfile am anfang ohne docker-compose**
+## **2.1 erstes Dockerfile ohne docker-compose**
 
     FROM php:7.4-cli
+
   >*zuerst wurde dieser Eintrag im Dockerfile benutzt. Im grunde sagt dies es soll die nachfolgenden zeilen von php 7.4 holen*
 
     COPY . /usr/src/myapp
+
   >*Hier wird der Kontent der momentan laufenden Directory in das ensprechende Verzeichnis (Docker Container) kopiert.*
     
     WORKDIR /usr/src/myapp
+
   >*Diese Linie sagt dass "/usr/src/myapp" als "arbeitendes Verzeichnis" läuft also als würde man cd "zu/meinem/projekt" machen.*
 
     CMD [ "php", "./index.php" ]
+
   >*Diese Linie Sagt, dass wir das File "index.php" im Ornder "/usr/src/myapp" ausführen, welches dann unser PHP script anzeigt.*
 
 
 ## **2.2 index.php File**
 
     <?php
+
   >*Hier sagen wir dem File das der folgende Code in PHP geschrieben wird*
 
     echo "Hello from the docker m300 container"
+
   >*Mit einem "echo" können wir eine kleiner Ausgabe schreiben, welche dann auf der Website erscheint.*
 
 
-**Danach wurden die folgenden Commands ausgeführt:**
+**Danach wurden noch die folgenden Commands ausgeführt:**
 
     docker build -t my-php-app .
+
   >*Diese Zeile sagt es soll unser neues Image namens "my-php-app" mit Hilfe des Inhalts der momentan befinden directory kreieren.*
 
     docker run -it --rm --name my-running-app my-php-app
+
  >*Diese Zeile sagt es soll einen Container kreieren, welcher auf dem neu erstellten Image basiert.*
 
  **Nun sollte man so etwas heruas bekommen:**
@@ -108,6 +116,7 @@ Ich habe mich dazu entschieden mit Hilfe von PHP, MYSQl und Apache, eine kleine 
 ## **2.3 Apache**
 
     docker run -d -p 80:80 --name my-apache-php-app -v "$PWD":/var/www/html php:7.2-apache
+
 >*Diese Zeile sag, dass Apache aus dem aktzuellen Folder gestartet werden soll und es definiert noch welche verison wir für den Apache Webserver nehmen "7.2"*
 
 
@@ -115,8 +124,7 @@ Wenn wir nun http://localhost:80 aufrufen sollten wir dies bekommen:
 
 ![image](./php-docker/localhost.jpg)
 
-
-
+--------------------------- 
 ***Im nächsten Schritt wird beschrieben, wie es mit eienem Docker-compose file funktioniert, und dies ist auch die Varianten für welche ich mich schlussendlich auch entschiednen habe.***
 
 ---------------------------                                                                            
