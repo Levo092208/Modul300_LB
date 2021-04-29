@@ -19,6 +19,7 @@
   - [**2.2 index.php File**](#22-indexphp-file)
   - [**2.3 Apache**](#23-apache)
   - [**2.1 docker-compose.yml**](#21-docker-composeyml)
+  - [**2.2 docker-compose.yml Code Dokumentation**](#22-docker-composeyml-code-dokumentation)
     - [**2.4 Vagrantfile Codedokumantation VM**](#24-vagrantfile-codedokumantation-vm)
     - [**2.5 Vagrantfile Codedokumantation Apache 2 / php**](#25-vagrantfile-codedokumantation-apache-2--php)
     - [**2.6 Vagrantfile Codedokumantation Firewall**](#26-vagrantfile-codedokumantation-firewall)
@@ -98,7 +99,7 @@ Ich habe mich dazu entschieden mit Hilfe von PHP, MYSQl und Apache, eine kleine 
   >*Mit einem "echo" können wir eine kleiner Ausgabe schreiben, welche dann auf der Website erscheint.*
 
 
-**Danach wurden noch die folgenden Commands ausgeführt:**
+***Danach wurden noch die folgenden Commands ausgeführt:***
 
     docker build -t my-php-app .
 
@@ -108,7 +109,7 @@ Ich habe mich dazu entschieden mit Hilfe von PHP, MYSQl und Apache, eine kleine 
 
  >*Diese Zeile sagt es soll einen Container kreieren, welcher auf dem neu erstellten Image basiert.*
 
- **Nun sollte man so etwas heruas bekommen:**
+ ***Nun sollte man so etwas heruas bekommen:***
  
     Hello from the docker container
 
@@ -125,12 +126,78 @@ Wenn wir nun http://localhost:80 aufrufen sollten wir dies bekommen:
 ![image](./php-docker/localhost.jpg)
 
 --------------------------- 
-***Im nächsten Schritt wird beschrieben, wie es mit eienem Docker-compose file funktioniert, und dies ist auch die Varianten für welche ich mich schlussendlich auch entschiednen habe.***
+***Im nächsten Schritt wird beschrieben, wie es mit eienem docker-compose file funktioniert, und dies ist auch die Varianten für welche ich mich schlussendlich auch entschiednen habe.***
+
+***Bevor wir unser docker-compose.yml Datei erstellen, müssen wir noch unseren eben erstellten Container stoppen. Wenn man nur einen Container stoppen will kann man dies mit dem Befehl "docker stop container_id" tun. Ich habe in diesem Fall den Befehl "docker stop $(docker ps -a -q)" verwendet, welcher mir alle meine laufenden container stoppt.***
 
 ---------------------------                                                                            
-## **2.1 docker-compose.yml**                
+## **2.1 docker-compose.yml**
 
+    version: '3.1'
 
+    services:
+        php:
+          build:
+             context: .
+             dockerfile: Dockerfile
+          ports:
+           - 80:80
+          volumes:
+           - ./src:/var/www/html/
+  
+
+        db:
+          image: mysql
+          command: --default-authentication-plugin=mysql_native_password
+          restart: always
+          environment:
+           MYSQL_ROOT_PASSWORD: example 
+
+        adminer:
+          image: adminer
+          restart: always
+          ports:
+           - 8080:8080
+
+---------------------------    
+
+## **2.2 docker-compose.yml Code Dokumentation**
+
+    version: '3.1'
+
+>*Diese Zeile definiert einfach welche docker-compose version verwendet wird.*
+
+    services:
+
+>*Diese Zeile listet die Container auf welche erstellt werden sollen.*  
+
+    php:
+
+>*Wir geben dem Container den Namen "php".*
+
+    image: php:7.4-apache
+
+>*Das Image soll php 7.4 sein. Zuerst hatte ich es nämlich mit 7.2 versucht.*
+
+    ports:
+      - 80:80
+
+>*Hier kommt das Port mapping, von unserem Port 80 zum Port 80 der Maschine .*
+
+    volumes:
+      - ./src:/var/www/html/
+
+>*Zum Schluss kommt unser Zeug vom src (Source) Folder in den /src:/var/www/html/ Ordner des Containers.*
+
+***Nun habe ich ein docker-compose up -d ausgeführt und localhost:80 aufgerufen. Da unsere Ornder nun verknüpft sind, kann man kurz testen ob dies auch richtig funktioniert. Dazu änderte ich einfach kurz den Innhalt des index.php files. Lade dann localhost:80 kurz neu und die änderungen sollten zu sehen sein***
+
+>*Vorher*
+
+![image](./php-docker/volumes.jpg)
+
+>*Nacher*
+
+![image](./php-docker/volumes2.jpg)
 
 ---------------------------
 
