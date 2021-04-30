@@ -18,14 +18,12 @@
   - [**2.1 erstes Dockerfile ohne docker-compose**](#21-erstes-dockerfile-ohne-docker-compose)
   - [**2.2 index.php File**](#22-indexphp-file)
   - [**2.3 Apache**](#23-apache)
-  - [**2.1 docker-compose.yml**](#21-docker-composeyml)
-  - [**2.2 docker-compose.yml Code Dokumentation**](#22-docker-composeyml-code-dokumentation)
-    - [**2.4 Vagrantfile Codedokumantation VM**](#24-vagrantfile-codedokumantation-vm)
-    - [**2.5 Vagrantfile Codedokumantation Apache 2 / php**](#25-vagrantfile-codedokumantation-apache-2--php)
-    - [**2.6 Vagrantfile Codedokumantation Firewall**](#26-vagrantfile-codedokumantation-firewall)
+  - [**2.4 docker-compose.yml**](#24-docker-composeyml)
+  - [**2.5 docker-compose.yml Code Dokumentation**](#25-docker-composeyml-code-dokumentation)
+  - [**2.6 index.php Code Dokumentation**](#26-indexphp-code-dokumentation)
 - [**3 Erweiterungen**](#3-erweiterungen)
 - [**4 Sicherheit**](#4-sicherheit)
-- [**5 Tests**](#5-tests)
+- [**5 Final Test**](#5-final-test)
 - [**6 Reflektion**](#6-reflektion)
 - [**7 Quellen**](#7-quellen)
 
@@ -123,7 +121,7 @@ Ich habe mich dazu entschieden mit Hilfe von PHP, MYSQl und Apache, eine kleine 
 
 Wenn wir nun http://localhost:80 aufrufen sollten wir dies bekommen:
 
-![image](./php-docker/localhost.jpg)
+![image](./php-docker/images/localhost.jpg)
 
 --------------------------- 
 ***Im nächsten Schritt wird beschrieben, wie es mit eienem docker-compose file funktioniert, und dies ist auch die Varianten für welche ich mich schlussendlich auch entschiednen habe.***
@@ -131,8 +129,22 @@ Wenn wir nun http://localhost:80 aufrufen sollten wir dies bekommen:
 ***Bevor wir unser docker-compose.yml Datei erstellen, müssen wir noch unseren eben erstellten Container stoppen. Wenn man nur einen Container stoppen will kann man dies mit dem Befehl "docker stop container_id" tun. Ich habe in diesem Fall den Befehl "docker stop $(docker ps -a -q)" verwendet, welcher mir alle meine laufenden container stoppt.***
 
 ---------------------------                                                                            
-## **2.1 docker-compose.yml**
+## **2.4 docker-compose.yml**
 
+
+    version: '3.1'
+
+    services:
+     php:
+      image: php:7.4-apache
+      ports:
+       - 80:80
+      volumes:
+       - ./src:/var/www/html/
+
+>*Erste Datei*
+    
+    
     version: '3.1'
 
     services:
@@ -159,9 +171,13 @@ Wenn wir nun http://localhost:80 aufrufen sollten wir dies bekommen:
           ports:
            - 8080:8080
 
+>*Zweite Datei*
+
 ---------------------------    
 
-## **2.2 docker-compose.yml Code Dokumentation**
+## **2.5 docker-compose.yml Code Dokumentation**
+
+***Hier ist die erste .yml Datei***
 
     version: '3.1'
 
@@ -193,145 +209,144 @@ Wenn wir nun http://localhost:80 aufrufen sollten wir dies bekommen:
 
 >*Vorher*
 
-![image](./php-docker/volumes.jpg)
+![image](./php-docker/images/volumes.jpg)
 
 >*Nacher*
 
-![image](./php-docker/volumes2.jpg)
+![image](./php-docker/images/volumes2.jpg)
 
 ---------------------------
 
+Im nächsten Schritt habe ich MySQL und Adminer (zwei Datenbank tools) aufgesetzt. Unser Ziel ist es PHP mit MySQl zu verknüpfen, dazu musste ich ein docker-compose.yml erstellen. So siet die zweite .yml Datei aus:
+
+        version: '3.1'
+
+        services:
+         php:
+          build:
+           context: .
+           dockerfile: Dockerfile
+          ports:
+           - 80:80
+          volumes:
+           - ./src:/var/www/html/
+
+>*Unser PHP Dienst sieht nun Final anderst aus, da wir noch einige mysql Dienste installieren müssen, um unsere PHP-Seite mit der Datenbank zu verbinden. Wir sagen, dass wir ein Dockerfile verwenden um das Image php7.4-Apache anzupassen. Zudem verwende ich den docker Befehl "build" um den Inhalt im aktuellen Verzeichniss verwenden (neues Dockerfile wird nochmals unten beschrieben)*
+
+        db:
+         image: mysql
+         command: --default-authentication-plugin=mysql_native_password
+         restart: always
+         environment:
+          MYSQL_ROOT_PASSWORD: example 
+
+        adminer:
+         image: adminer
+         restart: always
+         ports:
+          - 8080:8080
+
+>*Hier habe ich ein Datenbankdienst hinzugefügt welcher auf dem MySQL-Image beruht. Zudem habe ich einen Befehl für das Passwort und einen für die Neustartrichtlinie hinzugefügt. Danach habe ich das Root-Passwort auf "example" gesetzt, mit welchem wir uns auf der Datenbank anmelden können (siehe Bild). Beim abschnitt Adminer habe ich die Ports auf 8080:8080 gesetzt, um mit localhost:8080 auf das Admin-DB-Tool zu kommen (Bilder folgen weiter unten)*
+
+***Hier nochmals das vorhin erwänte nun abgeänderte Dockerfile. Wir wollen mysql so einrichten, dass es wieder so wie alles im PHP-Container funktioniert.***
+
+    FROM php:7.4-apache
+
+>*Hier sagen wir einfach, dass das 7.4-Apache PHP-Image verwendet werden soll, um unseren Container zu erstellen.*
+
+    RUN docker-php-ext-install mysqli
+
+>*In dieser Zeile wird bestimmt, dass MySQL Erweiterungen im Container heruntergeladen und ausgeführt werden können.*
+
+***Nun haben wir alles was wir brauchen. Führen wir nun den Befehl "docker-compose up -d" aus, sollten wir auf folgeneden URL kommen:***
+
+http://localhost:8080 ----> Admin-DB-Tool
+
+![image](./php-docker/images/Admin-DB-Tool.jpg)
+
+>*hier können wir uns mit dem USer "root" dem Passwort "example" anmelden*
 
 
-### **2.4 Vagrantfile Codedokumantation VM**
+![image](./php-docker/images/Admin-DB-Tool2.jpg)
 
-     config.vm.box = "ubuntu/xenial64"
-  >*hier ist definiert, welche Image / Box verwendet werden soll*
-
-     config.vm.network "forwarded_port", guest: 80, host: 8080
-  >*hier werden die geöffneten Ports eingetragen, damit man später auf die VM zugreifen kann*
-
-     config.vm.synced_folder ".", "/var/www/html"
-  >*hier wird definiert ob ein Ordner synchronisiert werden soll*
+>*Hier habe ich eine Datenbank namens "M300" erstellt.*
 
 
-     config.vm.provider "virtualbox" do |vb|
-  >*hier wird definiert welcher Provider verwendet werden soll*
+![image](./php-docker/images/Admin-DB-Tool3.jpg)
 
-     
-     vb.memory = "4096"
-  >*hier wird definiert wie viel Speicher die VM haben soll*
-
-     config.vm.provision "file", source: "../Website/index.php", destination: "/var/www/html/index.php"
-  >*hier sagen wir das alles was in Website/index.php steht soll auch zu html/index.php geschickt werden*
-  >> *index.php wurde lokal mit html bearbeitet*
-
-     config.vm.provision "file", source: "../Website/.htpasswd", destination: "/var/www/html/.htpasswd"
-  >*hier sagen wir das alles was in Website/.htpasswd steht soll auch zu html/.htpasswd geschickt werden*
-  >> *.htpasswd wurde bearbeitet. Inhalt = Levo97:$apr1$z0uxpvdg$ICcQCVvMs8oWfiKYRc/J71   jedoch konnte es nicht in Website eingefügt werden aus zeitgründen*
-
-     config.vm.provision "file", source: "../Website/.htaccess", destination: "/var/www/html/.htaccess"
-  >*hier sagen wir das alles was in Website/.htaccess steht soll auch zu html/.htaccess geschickt werden*
-  >> *.htaccess wurde bearbeitet. Inhalt = AuthType Basic AuthName "Bitte Passwort eingeben" AuthUserFile /Users/levinkuhn/desktop/m300/Modul300_LB/lb2/website/.htpasswd Require valid-user   jedoch konnte es nicht in Website eingefügt werden aus zeitgründen*
-
-     config.vm.provision "file", source: "../Website/apache2.conf", destination: "/var/www/html/apache2.conf"
-  >*hier sagen wir das alles was in Website/.htpasswd steht soll auch zu html/.htpasswd geschickt werden*
-  >> *apache2.conf wurde bearbeitet. Inhalt = AllowOverWrite - All*
-
-     config.vm.provision "shell", inline: <<-SHELL
-    Diese Zeile ist das Schlusslicht und alles wass noch folgt wird erst nach dem Start der VM in der VM automatisch ausgeführt
----------------------------
+>*Als nächstes habe ich eine Tabelle erstellt namens "users" mit den einträgen name und fav-color welche wir in unserem neuen index.php File brauchen werden.*
 
 
 
-### **2.5 Vagrantfile Codedokumantation Apache 2 / php**
+***Nun kommen wir zum neuen index.php File***
 
-     apt-get update
-  >*durch diesen Befehl werden Paketlisten neu eingelesen und aktualisiert*
+## **2.6 index.php Code Dokumentation**
 
-     apt-get install -y apache2
-  >*durch diesen Befehl wird apache2 installiert*
+    <?php
 
-     sudo apt -y install apache2 php libapache2-mod-php
-  >*durch diesen Befehl wird php installiert*
+    echo "Hello from the docker m300 container";
 
-    Nun kann man die IP der VM 127.0.0.1 im Browser eingeben. Wen die php selbt erstellte Seite erscheint hat alles funktioniert.
----------------------------
+    $mysqli = new mysqli("db", "root", "example", "M300");
 
+    $sql = "INSERT INTO users (name, fav_color) VALUES('Levo', 'blau')";
+    $result = $mysqli->query($sql);
+    $sql = "INSERT INTO users (name, fav_color) VALUES('Albin', 'grün')";
+    $result = $mysqli->query($sql);
+    $sql = "INSERT INTO users (name, fav_color) VALUES('Das ist ein Test funktionierts?', 'mais oui')";
+    $result = $mysqli->query($sql);
+    $sql = "INSERT INTO users (name, fav_color) VALUES('burim', 'weiss')";
+    $result = $mysqli->query($sql);
 
+    $sql = 'SELECT * FROM users';
 
+    if ($result = $mysqli->query($sql)) {
+        while ($data = $result->fetch_object()) {
+            $users[] = $data;
+        }
+    }
 
-### **2.6 Vagrantfile Codedokumantation Firewall**
- 
-    sudo apt install ufw 
-  >*durch diesen Befehl wird die ufw installiert, falls sie es nicht bereits ist.*
+    foreach ($users as $user) {
+        echo "<br>";
+        echo $user->name . " " . $user->fav_color;
+        echo "<br>";
+    }
 
-    sudo ufw default deny incoming
-  >*durch diesen Befehl wird standardmässig eingestellt, dass alles was hereinkommt, geblockt werden soll*
+>*Das PHP-File Brauchen wir nun um Apache und die Datenbank miteinander zu verbinden. Dies macht die dritte Zeile dieses Files. Den Code habe ich uas einem ÜK-Modul kopiert und ist leider nicht weiter dokumentiert, da es nicht um PHP vertieft gehen soll. Jeodch habe ich nur die VALUES abgeändert, hier (name, fav_color) und den VALUES einen Inhalt gegeben. Leider kann man mit diesem nicht so viel anfangen und ich konnte es nicht mehr erweiteren, da es mir Wichtiger war die auf die vorgegebenen VM zu bringen*
 
-    sudo ufw default allow outgoing
-  >*durch diesen Befehl wird standardmässig eingestellt, dass alles was rausgeht, erlaubt werden soll*
+***Jetzt ist aber alles aufgesetzt und PHP sollte mit der Datenbank veknüpft sein. Wenn wir localhost:80 aufrufen sollten wir folgendes zu sehen bekommen.***
 
-    sudo ufw allow ssh
-  >*eingehende ssh verbindungen werden zugelassen*
-
-    sudo ufw allow 80
-  >*Verbindungen des Port 80 werden zugelassen*
-
-    sudo ufw allow 8080
-  >*8080 wird zugelassen*
-   
-    sudo ufw allow 'Apache'
-  >*Apache wird zugelassen*
-
-    sudo ufw --force enable
-  >*Mit diesem befehl wird die Firewall aktiviert*
-
-    sudo ufw --force status verbose
-  >*Mit diesem befehl werden die geänderten Einstellungen angezeigt*
+![image](./php-docker//images/localhost80.jpg)
 
 ---------------------------
 
 # **3 Erweiterungen**
 
-
-     sudo apt-get update
-     sudo apt-get install libcap2-bin wireshark
-  >*durch diesen Befehl werden Paketlisten neu eingelesen und aktualisiert. Zusätzlich wird Wireshark installiert*
-
-     sudo apt-get update
-     sudo apt install software-properties-common
-     sudo add-apt-repository ppa:deadsnakes/ppa
-     sudo apt-get update
-     sudo apt install python3.8
-  >*durch diesen Befehl werden Paketlisten neu eingelesen und aktualisiert. Zusätzlich wird python installiert*
+Zu den Erweiterungen zähl ich hier die MySQl Erweiterungen welche ich im Dockerfile beschrieben habe
 
 ---------------------------
 
 # **4 Sicherheit**
 
->Eigentlich sollte .htaccess und .htpasswd für den sichehitsaspekt sorgen, jedoch hatte ich probleme, warum es jetzt nur die Firewall ist, welche uns ein wenig Sicherheit gibt.
+Zur Sicherheit zähle ich den Punkt, dass das Admihn-DB-Tool Passwort geschützt ist. Für weitere Sicherheitsaspekte fehlte die Zeit.
 
 ---------------------------
 
-# **5 Tests**
+# **5 Final Test**
 
 | Test  | Beschreib     | Auswertung |
 | ------- | ------------- | ---------- |
-| 1       | Nur Vm erstellen | geklappt   |
-| 2       | Konfigurierte VM erstellen |      geklappt   |
-| 3       | Komplettes Vagrant UP              | geklappt      |
-| 4       | Webserver im Browser erreichbar (127.0.0.1.8080)              | geklappt      |
-| 5       | status ufw              | geklappt      |
-| 6       | php website             | geklappt      |
-| 7       | php website mit index.php            | geklappt      |
+| 1       | docker-compose up -d funktioniert und alles container werden gestartet |   ![image](./php-docker/images/dockercompose.jpg) |
+| 2       | localhost:8080 ist ereichbar und Anmeldung erfolt über den user "root" mit dem Passwort "example" |     ![image](./php-docker/images/Admin-DB-Tool.jpg)   |
+| 3       | localhost:80 ist erreichbar und PHP ist erfolgreich mit der erstellten Datenbank und Tabelle verknüpft. Werden Änderungen vorgenommen können diese sofort mit F5 aktualisert werden.            | ![image](./php-docker/images/localhost80.jpg)      |
+| 4       | docker-compose up -d auf Herr Bergers VM. Alles sollte gleich funktionieren.               | hat nicht geklappt auch nach mehreren Tagen von Troubleshooting konnte das Problem nicht gefunden und behoben werden.     |
+
 
 
 ---------------------------
 
 # **6 Reflektion**
 
->Im grunde fand ich dieses Modul eines von den interessanteren, da ich mich zu anfangs noch gar nicht ausgekannt habe. Durch das Internet und Foren konnte ich mich gut einlesen. Nachdem ich mich informiert habe, und mich langsam in das Thema reingeabeitet habe bekam ich richtig lust zu Arebiten. Auch das Dokumentieren mit Mardwon hat spass gemacht und ich konnte sehr viel aus diesem Projekt lernen. Zum Einen habe ich neues dazu gelernt zum anderen habe ich aber auch gelernt, dass es wichtig ist nicht immer gleich aufzugeben und einfach das beste daraus zu machen. Durch einige Problem konnte ich mein Projekt schlussendlich nicht ganz fertig stellen. Das Nächste mal werde ich allgemein mehr zeit für Vagrant-Konfigurationen einplanen um so mein projekt auch ganz abschliessen zu können. Ich kann also sagen ich hab fast alles erreicht was ich erreichen wollte und bin im Grunde zufrieden mit meinem Projekt.
+>*Ich fande es sehr spannend etwas ganz neues zu erlenen, von dem ich bisher noch gar nie etwas gehört habe. Dank Youtube und kurzen Einlesungen fand ich schnell in das GRosse Thema Docker hinein und fnad auch gleich Spass am arbeiten. Im Grunde fand ich es nicht schwer sich Docker anzueignen und einfache Sachen hatte ich schnell gelernt, jeodch hatte ich auch grosse Hilfe vom Internet bezüglich von Youtube, welches mir das alles ein wenig vereinfachte. Auch mit der Zeit hatte ich zu Anfangs keine Pr4obleme und mein Projekt eigentlich schon früh "fertig". Als ich dann jedoch meine Docker Umgebung auf die VM von Herr Berger bringen sollte traten Probleme auf, welche ich nicht zu lösen wusste. Ich befasste mich stunden mit dem Troubleshooting und der Suche nach Fehlern, jedoch erfolglos. Ich bin entäuscht dass ich es nicht geschafft habe meine Dockerumgebung auf die VM zu bringen. Zudem finde ich ich hätte das Projekt noch sinnvoller erweitern können, wenn mit die Zeit gereicht hätte. Jetzt habe ich ein fertiges aber doch nicht ganz umgesetztes Projekt. Im grossen und ganzen bin ich aber sehr zufrieden mit meiner Arbeit und meinem Lernprozess welche ich durch dieses Projekt erlangen konnte. es hat mir sehr viel Spass gemacht mit Docker zu arbeiten und finde dies definitv eines von den spannensten Modulen*
 
 ---------------------------
 
