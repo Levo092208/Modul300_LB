@@ -35,7 +35,7 @@
 
 ## **1.1 Einleitung**
 
-Das hier ist die Dokuemntation des Moduls 300 der LB03, in welchem wir Services mit Docker autmoatisieren werden. Zur Realisierung wird Docker und Markdown verwendet. Markdown haben wir bereits kennengelernt und wird hier nicht mehr beschrieben. Docker hingegn ist neu und wird auch hier in der Dokumenntation  Zum einen wird der Code beschrieben, mit welchem wir alles aufegsetzt haben und zum anderen werden auch Fortschritte hier verzeichnet.
+Das hier ist die Dokumentation des Moduls 300 der LB03, in welchem wir Services mit Docker automatisieren werden. Zur Realisierung wird Docker und Markdown verwendet. Markdown haben wir bereits kennengelernt und wird hier nicht mehr beschrieben. Docker hingegen ist neu und wird auch hier in der Dokumentation beschrieben. Zum einen wird der Code beschrieben, mit welchem ich alles aufgesetzt habe und zum anderen werden auch Fortschritte hier verzeichnet.
 
 Ich habe mich dazu entschieden mit Hilfe von PHP, MYSQl und Apache, eine kleine Website zu "bauen", welche ihre Informationen via DB abholt. Was genau auf der Website stehen soll ist noch nicht definiert. 
 
@@ -71,7 +71,7 @@ Ich habe mich dazu entschieden mit Hilfe von PHP, MYSQl und Apache, eine kleine 
 
     FROM php:7.4-cli
 
-  >*zuerst wurde dieser Eintrag im Dockerfile benutzt. Im grunde sagt dies es soll die nachfolgenden zeilen von php 7.4 holen*
+  >*Zuerst wurde dieser Eintrag im Dockerfile benutzt. Im Grunde sagt dies, es soll die nachfolgenden Zeilen von php 7.4 holen*
 
     COPY . /usr/src/myapp
 
@@ -79,11 +79,11 @@ Ich habe mich dazu entschieden mit Hilfe von PHP, MYSQl und Apache, eine kleine 
     
     WORKDIR /usr/src/myapp
 
-  >*Diese Linie sagt dass "/usr/src/myapp" als "arbeitendes Verzeichnis" läuft also als würde man cd "zu/meinem/projekt" machen.*
+  >*Diese Linie sagt, dass "/usr/src/myapp" als "arbeitendes Verzeichnis" läuft, also als würde man cd "zu/meinem/projekt" machen.*
 
     CMD [ "php", "./index.php" ]
 
-  >*Diese Linie Sagt, dass wir das File "index.php" im Ornder "/usr/src/myapp" ausführen, welches dann unser PHP script anzeigt.*
+  >*Diese Linie sagt, dass wir das File "index.php" im Ornder "/usr/src/myapp" ausführen, welches dann unser PHP script anzeigt.*
 
 
 ## **2.2 index.php File**
@@ -94,18 +94,18 @@ Ich habe mich dazu entschieden mit Hilfe von PHP, MYSQl und Apache, eine kleine 
 
     echo "Hello from the docker m300 container"
 
-  >*Mit einem "echo" können wir eine kleiner Ausgabe schreiben, welche dann auf der Website erscheint.*
+  >*Mit einem "echo" können wir eine kleine Ausgabe schreiben, welche dann auf der Website erscheint.*
 
 
 ***Danach wurden noch die folgenden Commands ausgeführt:***
 
     docker build -t my-php-app .
 
-  >*Diese Zeile sagt es soll unser neues Image namens "my-php-app" mit Hilfe des Inhalts der momentan befinden directory kreieren.*
+  >*Diese Zeile sagt, es soll unser neues Image namens "my-php-app" mit Hilfe des Inhalts der momentan befindenden directory kreieren.*
 
     docker run -it --rm --name my-running-app my-php-app
 
- >*Diese Zeile sagt es soll einen Container kreieren, welcher auf dem neu erstellten Image basiert.*
+ >*Diese Zeile sagt, es soll einen Container kreieren, welcher auf dem neu erstellten Image basiert.*
 
  ***Nun sollte man so etwas heruas bekommen:***
  
@@ -116,17 +116,17 @@ Ich habe mich dazu entschieden mit Hilfe von PHP, MYSQl und Apache, eine kleine 
 
     docker run -d -p 80:80 --name my-apache-php-app -v "$PWD":/var/www/html php:7.2-apache
 
->*Diese Zeile sag, dass Apache aus dem aktzuellen Folder gestartet werden soll und es definiert noch welche verison wir für den Apache Webserver nehmen "7.2"*
+>*Diese Zeile sagt, dass Apache aus dem aktuellen Folder gestartet werden soll und es definiert noch welche Version wir für den Apache Webserver nehmen "7.2"*
 
 
-Wenn wir nun http://localhost:80 aufrufen sollten wir dies bekommen:
+Wenn wir nun http://localhost:80 aufrufen, sollten wir dies bekommen:
 
 ![image](./php-docker/images/localhost.jpg)
 
 --------------------------- 
-***Im nächsten Schritt wird beschrieben, wie es mit eienem docker-compose file funktioniert, und dies ist auch die Varianten für welche ich mich schlussendlich auch entschiednen habe.***
+***Im nächsten Schritt wird beschrieben, wie es mit eienem docker-compose file funktioniert, und dies ist auch die Varianten für welche ich mich schlussendlich auch entschieden habe.***
 
-***Bevor wir unser docker-compose.yml Datei erstellen, müssen wir noch unseren eben erstellten Container stoppen. Wenn man nur einen Container stoppen will kann man dies mit dem Befehl "docker stop container_id" tun. Ich habe in diesem Fall den Befehl "docker stop $(docker ps -a -q)" verwendet, welcher mir alle meine laufenden container stoppt.***
+***Bevor wir unser docker-compose.yml Datei erstellen, müssen wir noch unseren eben erstellten Container stoppen. Wenn man nur einen Container stoppen will, kann man dies mit dem Befehl "docker stop container_id" tun. Ich habe in diesem Fall den Befehl "docker stop $(docker ps -a -q)" verwendet, welcher mir alle meine Container stoppt.***
 
 ---------------------------                                                                            
 ## **2.4 docker-compose.yml**
@@ -181,11 +181,11 @@ Wenn wir nun http://localhost:80 aufrufen sollten wir dies bekommen:
 
     version: '3.1'
 
->*Diese Zeile definiert einfach welche docker-compose version verwendet wird.*
+>*Diese Zeile definiert einfach, welche docker-compose Version verwendet wird.*
 
     services:
 
->*Diese Zeile listet die Container auf welche erstellt werden sollen.*  
+>*Diese Zeile listet die Container auf, welche erstellt werden sollen.*  
 
     php:
 
@@ -203,9 +203,9 @@ Wenn wir nun http://localhost:80 aufrufen sollten wir dies bekommen:
     volumes:
       - ./src:/var/www/html/
 
->*Zum Schluss kommt unser Zeug vom src (Source) Folder in den /src:/var/www/html/ Ordner des Containers.*
+>*Zum Schluss kommt unser Inhalt vom src (Source) Folder in den /src:/var/www/html/ Ordner des Containers.*
 
-***Nun habe ich ein docker-compose up -d ausgeführt und localhost:80 aufgerufen. Da unsere Ornder nun verknüpft sind, kann man kurz testen ob dies auch richtig funktioniert. Dazu änderte ich einfach kurz den Innhalt des index.php files. Lade dann localhost:80 kurz neu und die änderungen sollten zu sehen sein***
+***Nun habe ich ein docker-compose up -d ausgeführt und localhost:80 aufgerufen. Da unsere Ornder nun verknüpft sind, kann man kurz testen, ob dies auch richtig funktioniert. Dazu änderte ich einfach kurz den Inhalt des index.php files. Lade dann localhost:80 kurz neu und die Änderungen sollten zu sehen sein***
 
 >*Vorher*
 
@@ -217,7 +217,7 @@ Wenn wir nun http://localhost:80 aufrufen sollten wir dies bekommen:
 
 ---------------------------
 
-Im nächsten Schritt habe ich MySQL und Adminer (zwei Datenbank tools) aufgesetzt. Unser Ziel ist es PHP mit MySQl zu verknüpfen, dazu musste ich ein docker-compose.yml erstellen. So siet die zweite .yml Datei aus:
+Im nächsten Schritt habe ich MySQL und Adminer (zwei Datenbank tools) aufgesetzt. Unser Ziel ist es PHP mit MySQl zu verknüpfen, dazu musste ich ein docker-compose.yml erstellen. So sieht die zweite .yml Datei aus:
 
         version: '3.1'
 
@@ -231,7 +231,7 @@ Im nächsten Schritt habe ich MySQL und Adminer (zwei Datenbank tools) aufgesetz
           volumes:
            - ./src:/var/www/html/
 
->*Unser PHP Dienst sieht nun Final anderst aus, da wir noch einige mysql Dienste installieren müssen, um unsere PHP-Seite mit der Datenbank zu verbinden. Wir sagen, dass wir ein Dockerfile verwenden um das Image php7.4-Apache anzupassen. Zudem verwende ich den docker Befehl "build" um den Inhalt im aktuellen Verzeichniss verwenden (neues Dockerfile wird nochmals unten beschrieben)*
+>*Unser PHP Dienst sieht nun Final anderst aus, da wir noch einige mysql Dienste installieren müssen, um unsere PHP-Seite mit der Datenbank zu verbinden. Wir sagen, dass wir ein Dockerfile verwenden um das Image php7.4-Apache anzupassen. Zudem verwende ich den docker Befehl "build" um den Inhalt im aktuellen Verzeichnis zu verwenden (neues Dockerfile wird nochmals unten beschrieben)*
 
         db:
          image: mysql
@@ -246,7 +246,7 @@ Im nächsten Schritt habe ich MySQL und Adminer (zwei Datenbank tools) aufgesetz
          ports:
           - 8080:8080
 
->*Hier habe ich ein Datenbankdienst hinzugefügt welcher auf dem MySQL-Image beruht. Zudem habe ich einen Befehl für das Passwort und einen für die Neustartrichtlinie hinzugefügt. Danach habe ich das Root-Passwort auf "example" gesetzt, mit welchem wir uns auf der Datenbank anmelden können (siehe Bild). Beim abschnitt Adminer habe ich die Ports auf 8080:8080 gesetzt, um mit localhost:8080 auf das Admin-DB-Tool zu kommen (Bilder folgen weiter unten)*
+>*Hier habe ich ein Datenbankdienst hinzugefügt, welcher auf dem MySQL-Image beruht. Zudem habe ich einen Befehl für das Passwort und einen für die Neustartrichtlinie hinzugefügt. Danach habe ich das Root-Passwort auf "example" gesetzt, mit welchem wir uns auf der Datenbank anmelden können (siehe Bild). Beim Abschnitt Adminer habe ich die Ports auf 8080:8080 gesetzt, um mit localhost:8080 auf das Admin-DB-Tool zu kommen (Bilder folgen weiter unten)*
 
 ***Hier nochmals das vorhin erwänte nun abgeänderte Dockerfile. Wir wollen mysql so einrichten, dass es wieder so wie alles im PHP-Container funktioniert.***
 
@@ -264,7 +264,7 @@ http://localhost:8080 ----> Admin-DB-Tool
 
 ![image](./php-docker/images/Admin-DB-Tool.jpg)
 
->*hier können wir uns mit dem USer "root" dem Passwort "example" anmelden*
+>*Hier können wir uns mit dem User "root" dem Passwort "example" anmelden*
 
 
 ![image](./php-docker/images/Admin-DB-Tool2.jpg)
@@ -274,7 +274,7 @@ http://localhost:8080 ----> Admin-DB-Tool
 
 ![image](./php-docker/images/Admin-DB-Tool3.jpg)
 
->*Als nächstes habe ich eine Tabelle erstellt namens "users" mit den einträgen name und fav-color welche wir in unserem neuen index.php File brauchen werden.*
+>*Als nächstes habe ich eine Tabelle erstellt namens "users" mit den Einträgen name und fav-color, welche wir in unserem neuen index.php File brauchen werden.*
 
 
 
@@ -311,9 +311,9 @@ http://localhost:8080 ----> Admin-DB-Tool
         echo "<br>";
     }
 
->*Das PHP-File Brauchen wir nun um Apache und die Datenbank miteinander zu verbinden. Dies macht die dritte Zeile dieses Files. Den Code habe ich uas einem ÜK-Modul kopiert und ist leider nicht weiter dokumentiert, da es nicht um PHP vertieft gehen soll. Jeodch habe ich nur die VALUES abgeändert, hier (name, fav_color) und den VALUES einen Inhalt gegeben. Leider kann man mit diesem nicht so viel anfangen und ich konnte es nicht mehr erweiteren, da es mir Wichtiger war die auf die vorgegebenen VM zu bringen*
+>*Das PHP-File brauchen wir nun, um Apache und die Datenbank miteinander zu verbinden. Dies macht die dritte Zeile dieses Files. Den Code habe ich aus einem ÜK-Modul kopiert und ist leider nicht weiter dokumentiert, da es nicht um PHP vertieft gehen soll. Jedoch habe ich nur die VALUES abgeändert, hier (name, fav_color) und den VALUES einen Inhalt gegeben. Leider kann man mit diesem nicht so viel anfangen und ich konnte es nicht mehr erweiteren, da es mir wichtiger war die auf die vorgegebenen VM zu bringen*
 
-***Jetzt ist aber alles aufgesetzt und PHP sollte mit der Datenbank veknüpft sein. Wenn wir localhost:80 aufrufen sollten wir folgendes zu sehen bekommen.***
+***Jetzt ist aber alles aufgesetzt und PHP sollte mit der Datenbank verknüpft sein. Wenn wir localhost:80 aufrufen sollten wir folgendes zu sehen bekommen.***
 
 ![image](./php-docker//images/localhost80.jpg)
 
@@ -321,7 +321,7 @@ http://localhost:8080 ----> Admin-DB-Tool
 
 # **3 Erweiterungen**
 
-Zu den Erweiterungen zähl ich hier die MySQl Erweiterungen welche ich im Dockerfile beschrieben habe. Für weiter Erweiterungen fehlte leider die Zeit.
+Zu den Erweiterungen zähle ich hier die MySQl Erweiterungen, welche ich im Dockerfile beschrieben habe. Für weiter Erweiterungen fehlte leider die Zeit.
 
 ---------------------------
 
@@ -346,7 +346,7 @@ Zur Sicherheit zähle ich den Punkt, dass das Admihn-DB-Tool Passwort geschützt
 
 # **6 Reflektion**
 
-*Ich fande es sehr spannend etwas ganz neues zu erlenen, von dem ich bisher noch gar nie etwas gehört habe. Dank Youtube und kurzen Einlesungen fand ich schnell in das GRosse Thema Docker hinein und fnad auch gleich Spass am arbeiten. Im Grunde fand ich es nicht schwer sich Docker anzueignen und einfache Sachen hatte ich schnell gelernt, jeodch hatte ich auch grosse Hilfe vom Internet bezüglich von Youtube, welches mir das alles ein wenig vereinfachte. Auch mit der Zeit hatte ich zu Anfangs keine Pr4obleme und mein Projekt eigentlich schon früh "fertig". Als ich dann jedoch meine Docker Umgebung auf die VM von Herr Berger bringen sollte traten Probleme auf, welche ich nicht zu lösen wusste. Ich befasste mich stunden mit dem Troubleshooting und der Suche nach Fehlern, jedoch erfolglos. Ich bin entäuscht dass ich es nicht geschafft habe meine Dockerumgebung auf die VM zu bringen. Zudem finde ich ich hätte das Projekt noch sinnvoller erweitern können, wenn mit die Zeit gereicht hätte. Jetzt habe ich ein fertiges aber doch nicht ganz umgesetztes Projekt. Im grossen und ganzen bin ich aber sehr zufrieden mit meiner Arbeit und meinem Lernprozess welche ich durch dieses Projekt erlangen konnte. es hat mir sehr viel Spass gemacht mit Docker zu arbeiten und finde dies definitv eines von den spannensten Modulen*
+*Ich fande es sehr spannend etwas ganz Neues zu erlernen, von dem ich bisher noch gar nie etwas gehört habe. Dank Youtube und kurzen Einlesungen fand ich schnell in das grosse Thema Docker hinein und fand auch gleich Spass am arbeiten. Im Grunde fand ich es nicht schwer, sich Docker anzueignen und einfache Sachen hatte ich schnell gelernt, jedoch hatte ich auch grosse Hilfe vom Internet, respektiv von Youtube, welches mir das alles ein wenig erleicherte. Auch mit der Zeit hatte ich anfangs keine Probleme und mein Projekt eigentlich schon früh "fertig". Als ich dann jedoch meine Dockerumgebung auf die VM von Herr Berger bringen sollte, traten Probleme auf, welche ich nicht zu lösen wusste. Ich befasste mich Stunden mit dem Troubleshooting und der Suche nach Fehlern, jedoch erfolglos. Ich bin entäuscht, dass ich es nicht geschafft habe meine Dockerumgebung auf die VM zu bringen. Zudem finde ich, dass ich das Projekt noch sinnvoller erweitern hätte können, wenn mir die Zeit gereicht hätte. Jetzt habe ich ein fertiges, aber doch nicht ganz umgesetztes Projekt. Im grossen und ganzen bin ich sehr zufrieden mit meiner Arbeit und meinem erweiterten Wissensstand, welchen ich durch dieses Projekt erlangen konnte. Es hat mir sehr viel Spass gemacht mit Docker zu arbeiten und ich finde dies definitv eines von den spannensten Modulen.*
 
 ---------------------------
 
