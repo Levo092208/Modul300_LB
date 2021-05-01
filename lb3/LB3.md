@@ -321,7 +321,7 @@ http://localhost:8080 ----> Admin-DB-Tool
 
 # **3 Erweiterungen**
 
-Zu den Erweiterungen zähl ich hier die MySQl Erweiterungen welche ich im Dockerfile beschrieben habe
+Zu den Erweiterungen zähl ich hier die MySQl Erweiterungen welche ich im Dockerfile beschrieben habe. Für weiter Erweiterungen fehlte leider die Zeit.
 
 ---------------------------
 
@@ -346,14 +346,15 @@ Zur Sicherheit zähle ich den Punkt, dass das Admihn-DB-Tool Passwort geschützt
 
 # **6 Reflektion**
 
->*Ich fande es sehr spannend etwas ganz neues zu erlenen, von dem ich bisher noch gar nie etwas gehört habe. Dank Youtube und kurzen Einlesungen fand ich schnell in das GRosse Thema Docker hinein und fnad auch gleich Spass am arbeiten. Im Grunde fand ich es nicht schwer sich Docker anzueignen und einfache Sachen hatte ich schnell gelernt, jeodch hatte ich auch grosse Hilfe vom Internet bezüglich von Youtube, welches mir das alles ein wenig vereinfachte. Auch mit der Zeit hatte ich zu Anfangs keine Pr4obleme und mein Projekt eigentlich schon früh "fertig". Als ich dann jedoch meine Docker Umgebung auf die VM von Herr Berger bringen sollte traten Probleme auf, welche ich nicht zu lösen wusste. Ich befasste mich stunden mit dem Troubleshooting und der Suche nach Fehlern, jedoch erfolglos. Ich bin entäuscht dass ich es nicht geschafft habe meine Dockerumgebung auf die VM zu bringen. Zudem finde ich ich hätte das Projekt noch sinnvoller erweitern können, wenn mit die Zeit gereicht hätte. Jetzt habe ich ein fertiges aber doch nicht ganz umgesetztes Projekt. Im grossen und ganzen bin ich aber sehr zufrieden mit meiner Arbeit und meinem Lernprozess welche ich durch dieses Projekt erlangen konnte. es hat mir sehr viel Spass gemacht mit Docker zu arbeiten und finde dies definitv eines von den spannensten Modulen*
+*Ich fande es sehr spannend etwas ganz neues zu erlenen, von dem ich bisher noch gar nie etwas gehört habe. Dank Youtube und kurzen Einlesungen fand ich schnell in das GRosse Thema Docker hinein und fnad auch gleich Spass am arbeiten. Im Grunde fand ich es nicht schwer sich Docker anzueignen und einfache Sachen hatte ich schnell gelernt, jeodch hatte ich auch grosse Hilfe vom Internet bezüglich von Youtube, welches mir das alles ein wenig vereinfachte. Auch mit der Zeit hatte ich zu Anfangs keine Pr4obleme und mein Projekt eigentlich schon früh "fertig". Als ich dann jedoch meine Docker Umgebung auf die VM von Herr Berger bringen sollte traten Probleme auf, welche ich nicht zu lösen wusste. Ich befasste mich stunden mit dem Troubleshooting und der Suche nach Fehlern, jedoch erfolglos. Ich bin entäuscht dass ich es nicht geschafft habe meine Dockerumgebung auf die VM zu bringen. Zudem finde ich ich hätte das Projekt noch sinnvoller erweitern können, wenn mit die Zeit gereicht hätte. Jetzt habe ich ein fertiges aber doch nicht ganz umgesetztes Projekt. Im grossen und ganzen bin ich aber sehr zufrieden mit meiner Arbeit und meinem Lernprozess welche ich durch dieses Projekt erlangen konnte. es hat mir sehr viel Spass gemacht mit Docker zu arbeiten und finde dies definitv eines von den spannensten Modulen*
 
 ---------------------------
 
 # **7 Quellen**
-- <https://github.com/Levo092208/Modul300_LB> "Mein Repo"
-- <https://app.vagrantup.com/boxes/search?utf8=%E2%9C%93&sort=downloads&provider=&q=ubuntu%2Ftrusty64> "UbuntuBox"
-- <https://bscw.tbz.ch/bscw/bscw.cgi/d32655651/M300_LB2_IaC_1_4.pdf> "LB2 Anforderungen"
-- <https://stackoverflow.com/questions/4181861/message-src-refspec-master-does-not-match-any-when-pushing-commits-in-git> "Stackflow Lösungsvorschläge"
-- <https://laracasts.com/discuss/channels/general-discussion/htaccess-and-vagrant> ".htaccess mit Vagrant"
+- <https://www.digitalocean.com/community/tutorials/apache-configuration-error-ah00558-could-not-reliably-determine-the-server-s-fully-qualified-domain-name>
+- <https://www.php.net/manual/de/language.expressions.php>
+- <https://stackoverflow.com/questions/19937880/mysqliquery-couldnt-fetch-mysqli/26147425>
+- <https://docs.docker.com/config/daemon/>
+- <https://hub.docker.com/>
+
 
