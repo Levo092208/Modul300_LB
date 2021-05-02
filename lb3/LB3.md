@@ -340,8 +340,6 @@ Zur Sicherheit zähle ich den Punkt, dass das Admihn-DB-Tool Passwort geschützt
 | 3       | localhost:80 ist erreichbar und PHP ist erfolgreich mit der erstellten Datenbank und Tabelle verknüpft. Werden Änderungen vorgenommen können diese sofort mit F5 aktualisert werden.            | ![image](./php-docker/images/localhost80.jpg)      |
 | 4       | docker-compose up -d auf Herr Bergers VM. Alles sollte gleich funktionieren.               | hat nicht geklappt auch nach mehreren Tagen von Troubleshooting konnte das Problem nicht gefunden und behoben werden.     |
 
-
-
 ---------------------------
 
 # **6 Reflektion**
